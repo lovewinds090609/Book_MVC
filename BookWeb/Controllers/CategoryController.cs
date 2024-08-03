@@ -31,6 +31,7 @@ namespace BookWeb.Controllers
             {
                 _db.Categories.Add(obj);
                 _db.SaveChanges();
+                TempData["success"] = "創建成功";
                 return RedirectToAction("Index");
             }
             return View();
@@ -61,6 +62,7 @@ namespace BookWeb.Controllers
             {
                 _db.Categories.Update(obj);
                 _db.SaveChanges();
+                TempData["success"] = "修改成功";
                 return RedirectToAction("Index");
             }
             return View();
@@ -90,6 +92,7 @@ namespace BookWeb.Controllers
             }
             _db.Categories.Remove(obj);
             _db.SaveChanges();
+            TempData["success"] = "刪除成功";
             return RedirectToAction("Index");
         }
     }
