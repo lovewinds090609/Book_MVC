@@ -1,20 +1,22 @@
 ﻿using Book.DataAccess.Data;
+using Book.DataAccess.Repository;
 using Book.DataAccess.Repository.IRepository;
 using Book.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepo;
-        public CategoryController(ICategoryRepository categoryRepo)
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _categoryRepo = categoryRepo;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            List<Category> objCategoryList = _categoryRepo.GetAll().ToList();
+            List<Category> objCategoryList = _unitOfWork.Category.GetAll().ToList();
             return View(objCategoryList);
         }
         public IActionResult Create()
@@ -30,8 +32,8 @@ namespace BookWeb.Controllers
             }
             if (ModelState.IsValid)
             {
-                _categoryRepo.Add(obj);
-                _categoryRepo.Save();
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.save();
                 TempData["success"] = "創建成功";
                 return RedirectToAction("Index");
             }
@@ -44,7 +46,7 @@ namespace BookWeb.Controllers
                 return NotFound();
             }
             //Category? categoryFromDb = _db.Categories.Find(id); //用主鍵找實體
-            Category? categoryFromDb = _categoryRepo.Get(u => u.Id == id);
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
             //Category? categoryFromDb1 = _db.Categories.FirstOrDefault(u => u.Id == id); //不限定主鍵
             //Category? categoryFromDb2 = _db.Categories.Where(u => u.Id == id).FirstOrDefault(); //複雜查詢可使用
             if (categoryFromDb == null)
@@ -62,8 +64,8 @@ namespace BookWeb.Controllers
             }
             if (ModelState.IsValid)
             {
-                _categoryRepo.Update(obj);
-                _categoryRepo.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.save();
                 TempData["success"] = "修改成功";
                 return RedirectToAction("Index");
             }
@@ -76,7 +78,7 @@ namespace BookWeb.Controllers
             {
                 return NotFound();
             }
-            Category? categoryFromDb = _categoryRepo.Get(u => u.Id == id); //用主鍵找實體
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id); //用主鍵找實體
             //Category? categoryFromDb1 = _db.Categories.FirstOrDefault(u => u.Id == id); //不限定主鍵
             //Category? categoryFromDb2 = _db.Categories.Where(u => u.Id == id).FirstOrDefault(); //複雜查詢可使用
             if (categoryFromDb == null)
@@ -88,12 +90,12 @@ namespace BookWeb.Controllers
         [HttpPost,ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            Category? obj = _categoryRepo.Get(u => u.Id == id);
+            Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
             if (obj == null) { 
                 return NotFound();
             }
-            _categoryRepo.Remove(obj);
-            _categoryRepo.Save();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.save();
             TempData["success"] = "刪除成功";
             return RedirectToAction("Index");
         }

@@ -13,6 +13,9 @@ namespace Book.DataAccess.Repository
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _db;
+        /// <summary>
+        /// 使用dbset對特定表進行操作提高可讀性和維護性
+        /// </summary>
         internal DbSet<T> dbSet;
         public Repository(ApplicationDbContext db) { 
             _db = db;
