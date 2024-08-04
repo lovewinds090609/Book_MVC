@@ -2,6 +2,7 @@
 using Book.DataAccess.Repository;
 using Book.DataAccess.Repository.IRepository;
 using Book.Models;
+using Book.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,20 +23,38 @@ namespace BookWeb.Areas.Admin.Controllers
             List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
             return View(objProductList);
         }
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
         {
             //實作下拉選單的選項 在編輯或新增時能夠讓使用者知道目前有什麼種類的書以及對應的DisplayOrder
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category
-                .GetAll().ToList().Select(u => new SelectListItem
+            //IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category
+            //    .GetAll().ToList().Select(u => new SelectListItem
+            //    {
+            //        Text = u.Name,
+            //        Value = u.Id.ToString()
+            //    });
+            //ViewBag.CategoryList = CategoryList;
+            ProductViewModel productViewModel = new()
+            {
+                CategoryList = _unitOfWork.Category.GetAll().ToList().Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
-                });
-            ViewBag.CategoryList = CategoryList;
-            return View();
+                }),
+                Product = new Product()
+            };
+            if(id == null || id == 0)
+            {
+                return View(productViewModel);
+            }
+            else
+            {
+                //update
+                productViewModel.Product=_unitOfWork.Product.Get(u => u.Id == id);
+                return View(productViewModel);
+            }
         }
         [HttpPost]
-        public IActionResult Create(Product obj)
+        public IActionResult Upsert(ProductViewModel productViewModel,IFormFile? file)
         {
             //if (obj.Name == obj.DisplayOrder.ToString())
             //{
@@ -43,45 +62,20 @@ namespace BookWeb.Areas.Admin.Controllers
             //}
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Add(obj);
+                _unitOfWork.Product.Add(productViewModel.Product);
                 _unitOfWork.save();
                 TempData["success"] = "創建成功";
                 return RedirectToAction("Index");
             }
-            return View();
-        }
-        public IActionResult Edit(int? id)
-        {
-            ///主鍵不允許null而且從1開始 防止查詢&操作無效資料
-            if (id == null || id == 0)
+            else
             {
-                return NotFound();
+                productViewModel.CategoryList = _unitOfWork.Category.GetAll().ToList().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
+                return View(productViewModel);
             }
-            //Category? categoryFromDb = _db.Categories.Find(id); //用主鍵找實體
-            Product? ProductFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-            //Category? categoryFromDb1 = _db.Categories.FirstOrDefault(u => u.Id == id); //不限定主鍵
-            //Category? categoryFromDb2 = _db.Categories.Where(u => u.Id == id).FirstOrDefault(); //複雜查詢可使用
-            if (ProductFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(ProductFromDb);
-        }
-        [HttpPost]
-        public IActionResult Edit(Product obj)
-        {
-            //if (obj.Name == obj.DisplayOrder.ToString())
-            //{
-            //    ModelState.AddModelError("Name", "Order不能跟名稱一樣");
-            //}
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Product.Update(obj);
-                _unitOfWork.save();
-                TempData["success"] = "修改成功";
-                return RedirectToAction("Index");
-            }
-            return View();
         }
         public IActionResult Delete(int? id)
         {
