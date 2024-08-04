@@ -4,7 +4,7 @@
     <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">Category List</h2>
+                <h2 class="text-white py-2">類別清單</h2>
             </div>
         </div>
     </div>
@@ -14,7 +14,7 @@
             </div>
             <div class="col-6 text-end">
                 <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Create New Category
+                    <i class="bi bi-plus-circle"></i> 創建新的類別
                 </a>
             </div>
         </div>
@@ -22,13 +22,13 @@
             <thead>
                 <tr>
                     <th>
-                        Category Name
+                        類別名稱
                     </th>
                     <th>
-                        Display Order
+                        顯示順序
                     </th>
                     <th>
-                        Edit
+                        更改
                     </th>
                 </tr>
             </thead>
@@ -45,10 +45,10 @@
                         <td>
                             <div class="w-75 btn-group" role="group">
                                 <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-                                    <i class="bi bi-pen"></i> Edit
+                                    <i class="bi bi-pen"></i> 編輯
                                 </a>
                                 <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
-                                    <i class="bi bi-trash"></i> Delete
+                                    <i class="bi bi-trash"></i> 刪除
                                 </a>
                             </div>
                         </td>

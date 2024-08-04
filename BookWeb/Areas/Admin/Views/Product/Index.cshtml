@@ -4,7 +4,7 @@
     <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">Product List</h2>
+                <h2 class="text-white py-2">產品清單</h2>
             </div>
         </div>
     </div>
@@ -14,7 +14,7 @@
             </div>
             <div class="col-6 text-end">
                 <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Create New Product
+                    <i class="bi bi-plus-circle"></i> 創建新產品
                 </a>
             </div>
         </div>
@@ -22,22 +22,22 @@
             <thead>
                 <tr>
                     <th>
-                        Title
+                        書名
                     </th>
                     <th>
-                        ISBN
+                        ISBN碼
                     </th>
                     <th>
-                        Price
+                        價格
                     </th>
                     <th>
-                        Author
+                        作者
                     </th>
                     <th>
-                        Category
+                        類別
                     </th>
                     <th>
-                        Edit
+                        更改
                     </th>
                 </tr>
             </thead>
@@ -63,10 +63,10 @@
                         <td>
                             <div class="w-75 btn-group" role="group">
                                 <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-                                    <i class="bi bi-pen"></i> Edit
+                                    <i class="bi bi-pen"></i> 編輯
                                 </a>
                                 <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
-                                    <i class="bi bi-trash"></i> Delete
+                                    <i class="bi bi-trash"></i> 刪除
                                 </a>
                             </div>
                         </td>
