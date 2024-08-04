@@ -3,7 +3,9 @@ using Book.DataAccess.Repository;
 using Book.DataAccess.Repository.IRepository;
 using Book.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace BookWeb.Areas.Admin.Controllers
 {
@@ -22,6 +24,14 @@ namespace BookWeb.Areas.Admin.Controllers
         }
         public IActionResult Create()
         {
+            //實作下拉選單的選項 在編輯或新增時能夠讓使用者知道目前有什麼種類的書以及對應的DisplayOrder
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category
+                .GetAll().ToList().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
+            ViewBag.CategoryList = CategoryList;
             return View();
         }
         [HttpPost]
