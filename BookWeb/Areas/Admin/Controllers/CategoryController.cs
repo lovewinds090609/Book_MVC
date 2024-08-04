@@ -5,8 +5,9 @@ using Book.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookWeb.Controllers
+namespace BookWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -26,7 +27,7 @@ namespace BookWeb.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            if(obj.Name == obj.DisplayOrder.ToString())
+            if (obj.Name == obj.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("Name", "Order不能跟名稱一樣");
             }
@@ -42,7 +43,8 @@ namespace BookWeb.Controllers
         public IActionResult Edit(int? id)
         {
             ///主鍵不允許null而且從1開始 防止查詢&操作無效資料
-            if (id == null || id == 0) { 
+            if (id == null || id == 0)
+            {
                 return NotFound();
             }
             //Category? categoryFromDb = _db.Categories.Find(id); //用主鍵找實體
@@ -87,11 +89,12 @@ namespace BookWeb.Controllers
             }
             return View(categoryFromDb);
         }
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
             Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
-            if (obj == null) { 
+            if (obj == null)
+            {
                 return NotFound();
             }
             _unitOfWork.Category.Remove(obj);

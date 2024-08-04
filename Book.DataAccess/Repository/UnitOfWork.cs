@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Book.DataAccess.Repository
 {
+    /// <summary>
+    /// 使用UnitOfWork設計模式實現ACID
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         private ApplicationDbContext _db;
