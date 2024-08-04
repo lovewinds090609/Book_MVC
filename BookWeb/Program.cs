@@ -1,13 +1,17 @@
 using Book.DataAccess.Data;
+using Book.DataAccess.Repository;
+using Book.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+/// 連接資料庫
 builder.Services.AddDbContext<ApplicationDbContext>(options=> 
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+///
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
