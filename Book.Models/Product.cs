@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Book.Models
 {
@@ -41,5 +42,8 @@ namespace Book.Models
         [Required(ErrorMessage = "價格不能為空白")]
         [DisplayName("購買100本以上單價")]
         public double Price100 { get; set; }
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
     }
 }

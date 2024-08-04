@@ -41,7 +41,8 @@ namespace Book.DataAccess.Data
                     ListPrice = 520,
                     Price = 410,
                     Price50 = 410,
-                    Price100 = 410
+                    Price100 = 410,
+                    CategoryId = 1
                 },
                 new Product
                 {
@@ -53,7 +54,8 @@ namespace Book.DataAccess.Data
                     ListPrice = 480,
                     Price = 379,
                     Price50 = 379,
-                    Price100 = 379
+                    Price100 = 379,
+                    CategoryId = 1
                 },
                 new Product
                 {
@@ -65,7 +67,8 @@ namespace Book.DataAccess.Data
                     ListPrice = 380,
                     Price = 300,
                     Price50 = 300,
-                    Price100 = 300
+                    Price100 = 300,
+                    CategoryId = 1
                 }
                 );
         }
